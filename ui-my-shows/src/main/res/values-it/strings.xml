@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="menuMyShows">I miei show</string>
-  <string name="menuWatchlist">Da Vedere</string>
+  <string name="menuWatchlist">Da vedere</string>
   <string name="menuHidden">Nascosti</string>
   <string name="textMyShowsEmpty">La tua raccolta di show è vuota.\n\nVisita la pagina <b>Scopri</b> per aggiungere il tuo primo show.</string>
   <string name="textWatchlistEmpty">La tua lista <b>Da vedere</b> è vuota.\n\nVisita la pagina <b>Scopri</b> per aggiungere gli show che hai intenzione di vedere più avanti.</string>
