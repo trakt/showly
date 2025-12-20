@@ -62,12 +62,4 @@ interface ShowsDao :
 
     if (updateList.isNotEmpty()) update(updateList)
   }
-@Query("UPDATE shows SET isRewatching = :isRewatching, rewtachStartedAt = :startedAt WHERE traktId = :showTraktId")
-    suspend fun updateRewatchStatus(showTraktId: Long, isRewatching: Boolean, startedAt: Long? = null)
-
-    @Query("SELECT * FROM shows WHERE isRewatching = 1")
-    fun observeRewatchingShows(): kotlinx.coroutines.flow.Flow<List<Show>>
-
-    @Query("UPDATE shows SET rewatchCount = rewatchCount + 1 WHERE traktId = :showTraktId")
-    suspend fun incrementRewatchCount(showTraktId: Long)
 }

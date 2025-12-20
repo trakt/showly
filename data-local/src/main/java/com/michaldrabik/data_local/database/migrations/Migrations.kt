@@ -5,7 +5,7 @@ import android.content.Context.MODE_PRIVATE
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
 
-const val DATABASE_VERSION = 42
+const val DATABASE_VERSION = 41
 const val DATABASE_NAME = "SHOWLY2_DB_2"
 
 class Migrations(
@@ -777,31 +777,6 @@ class Migrations(
       }
     }
   }
-  private val migration42 = object : Migration(41, 42) {
-    override fun migrate(database: SupportSQLiteDatabase) {
-      with(database) {
-        // Add columns to shows table
-        execSQL("ALTER TABLE shows ADD COLUMN isRewatching INTEGER NOT NULL DEFAULT 0")
-        execSQL("ALTER TABLE shows ADD COLUMN rewtachStartedAt INTEGER")
-        execSQL("ALTER TABLE shows ADD COLUMN rewatchCount INTEGER NOT NULL DEFAULT 0")
-
-        // Create rewatch_history table
-        execSQL("""
-          CREATE TABLE IF NOT EXISTS rewatch_history (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            showTraktId INTEGER NOT NULL,
-            startedAt INTEGER NOT NULL,
-            completedAt INTEGER,
-            rating INTEGER,
-            FOREIGN KEY(showTraktId) REFERENCES shows(traktId) ON DELETE CASCADE
-          )
-        """.trimIndent())
-
-        // Create index for better query performance
-        execSQL("CREATE INDEX IF NOT EXISTS idx_rewatch_show ON rewatch_history(showTraktId)")
-      }
-    }
-  }
 
   fun getAll() =
     listOf(
@@ -845,6 +820,5 @@ class Migrations(
       migration39,
       migration40,
       migration41,
-      migration42,
     )
 }
