@@ -1,1 +1,2 @@
 * Added User-Agent header for improved Trakt API compatibility.
+* Added new supported language
