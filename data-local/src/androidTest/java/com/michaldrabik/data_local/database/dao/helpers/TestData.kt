@@ -69,6 +69,7 @@ object TestData {
       archiveShowsSortBy = "",
       archiveShowsIncludeStatistics = false,
       specialSeasonsEnabled = false,
+      progressIncludeSpecials = false,
       showAnticipatedMovies = false,
       discoverMoviesFilterGenres = "",
       discoverMoviesFilterFeed = "",

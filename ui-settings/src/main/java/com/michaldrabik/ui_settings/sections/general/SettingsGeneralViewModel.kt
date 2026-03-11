@@ -77,6 +77,13 @@ class SettingsGeneralViewModel @Inject constructor(
     }
   }
 
+  fun enableProgressIncludeSpecials(enable: Boolean) {
+    viewModelScope.launch {
+      mainCase.enableProgressIncludeSpecials(enable)
+      refreshSettings()
+    }
+  }
+
   fun enableMovies(enable: Boolean) {
     viewModelScope.launch {
       mainCase.enableMovies(enable)

@@ -46,7 +46,19 @@ class SettingsGeneralMainCase @Inject constructor(
   suspend fun enableSpecialSeasons(enable: Boolean) {
     val settings = settingsRepository.load()
     settings.let {
-      val new = it.copy(specialSeasonsEnabled = enable)
+      val new = it.copy(
+        specialSeasonsEnabled = enable,
+        progressIncludeSpecials = if (enable) it.progressIncludeSpecials else false,
+      )
+      settingsRepository.update(new)
+    }
+  }
+
+  suspend fun enableProgressIncludeSpecials(enable: Boolean) {
+    val settings = settingsRepository.load()
+    if (!settings.specialSeasonsEnabled) return
+    settings.let {
+      val new = it.copy(progressIncludeSpecials = enable)
       settingsRepository.update(new)
     }
   }
