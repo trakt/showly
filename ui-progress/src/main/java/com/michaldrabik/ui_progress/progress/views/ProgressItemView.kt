@@ -186,7 +186,8 @@ class ProgressItemView : ShowView<ProgressListItem.Episode> {
     checkClickListener: ((ProgressListItem.Episode) -> Unit)?,
     detailsClickListener: ((ProgressListItem.Episode) -> Unit)?,
   ) {
-    val hasAired = item.episode?.hasAired(item.season ?: Season.EMPTY) == true
+    val hasAired = item.episode?.hasAired(item.season ?: Season.EMPTY) == true ||
+      (item.season?.isSpecial() == true)
     val color = if (hasAired) android.R.attr.textColorPrimary else android.R.attr.textColorSecondary
 
     with(binding) {
