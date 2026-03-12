@@ -103,7 +103,7 @@ class ProgressItemsCase @Inject constructor(
 
       val validItems = items
         .filter { if (isUpcomingEnabled) true else !it.isUpcoming }
-        .filter { it.episode?.firstAired != null }
+        .filter { it.episode?.firstAired != null || it.season?.isSpecial() == true }
 
       val filledItems = validItems
         .map {
