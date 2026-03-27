@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-extraction-rules>
+    <cloud-backup>
+        <include domain="sharedpref" path="PREFERENCES_SYNC.xml" />
+        <include domain="database" path="SHOWLY2_DB_2" />
+    </cloud-backup>
+</data-extraction-rules>

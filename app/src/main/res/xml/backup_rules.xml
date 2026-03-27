@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<full-backup-content>
+    <include domain="sharedpref" path="PREFERENCES_SYNC.xml" />
+    <include domain="database" path="SHOWLY2_DB_2" />
+
+    <exclude domain="external" path="cache" />
+</full-backup-content>
