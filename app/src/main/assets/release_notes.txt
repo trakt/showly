@@ -1,2 +1,2 @@
-* Added User-Agent header for improved Trakt API compatibility.
-* Added new supported language
+* Updated backup rules for Android 12+
+* Updated internal dependencies
