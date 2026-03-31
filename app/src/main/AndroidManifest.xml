@@ -26,8 +26,11 @@
 
     <activity
       android:name=".ui.main.MainActivity"
+      android:allowBackup="true"
       android:configChanges="orientation|screenSize|keyboardHidden|keyboard"
+      android:dataExtractionRules="@xml/data_extraction_rules"
       android:exported="true"
+      android:fullBackupContent="@xml/backup_rules"
       android:hardwareAccelerated="true"
       android:launchMode="singleInstance"
       android:screenOrientation="portrait"
