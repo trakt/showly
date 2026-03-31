@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <string name="menuNews">Știri</string>
-    <string name="textNewsEmpty">Nu există știri în acest moment.</string>
-    <string name="textNewsText">Text</string>
-    <string name="textNewsVideo">Video</string>
-    <string name="textNewsTextVideo">Text &amp; Video</string>
-</resources>
