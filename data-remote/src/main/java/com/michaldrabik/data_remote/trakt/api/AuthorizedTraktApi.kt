@@ -101,12 +101,44 @@ internal class AuthorizedTraktApi(
 
     return results
   }
+  
+  override suspend fun fetchSyncWatchedShows(extended: String?): List<SyncItem> {
+    var page = 1
+    val results = mutableListOf<SyncItem>()
 
-  override suspend fun fetchSyncWatchedShows(extended: String?) =
-    syncService.fetchSyncWatched("shows", extended).filter { it.show != null }
+    do {
+      val response = syncService
+        .fetchSyncWatched(
+          type = "shows",
+          extended = extended,
+          page = page,
+          limit = TRAKT_SYNC_PAGE_LIMIT,
+        ).filter { it.show != null }
+      results.addAll(response)
+      page += 1
+    } while (response.isNotEmpty())
 
-  override suspend fun fetchSyncWatchedMovies(extended: String?) =
-    syncService.fetchSyncWatched("movies", extended).filter { it.movie != null }
+    return results
+  }
+
+  override suspend fun fetchSyncWatchedMovies(extended: String?): List<SyncItem> {
+    var page = 1
+    val results = mutableListOf<SyncItem>()
+
+    do {
+      val response = syncService
+        .fetchSyncWatched(
+          type = "movies",
+          extended = extended,
+          page = page,
+          limit = TRAKT_SYNC_PAGE_LIMIT,
+        ).filter { it.movie != null }
+      results.addAll(response)
+      page += 1
+    } while (response.isNotEmpty())
+
+    return results
+  }
 
   override suspend fun fetchSyncShowsWatchlist() = fetchSyncWatchlist("shows")
 

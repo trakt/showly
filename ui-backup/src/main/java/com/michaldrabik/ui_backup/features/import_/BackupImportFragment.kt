@@ -3,6 +3,7 @@ package com.michaldrabik.ui_backup.features.import_
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
 import androidx.activity.result.contract.ActivityResultContracts.OpenDocument
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updatePadding
@@ -57,6 +58,8 @@ class BackupImportFragment : BaseFragment<BackupImportViewModel>(R.layout.fragme
     launchAndRepeatStarted(
       { viewModel.uiState.collect { render(it) } },
     )
+
+    activity?.window?.addFlags(FLAG_KEEP_SCREEN_ON)
   }
 
   private fun setupView() {
@@ -115,6 +118,8 @@ class BackupImportFragment : BaseFragment<BackupImportViewModel>(R.layout.fragme
     } else {
       snackbar?.dismiss()
     }
+
+    activity?.window?.clearFlags(FLAG_KEEP_SCREEN_ON)
     super.onDestroyView()
   }
 

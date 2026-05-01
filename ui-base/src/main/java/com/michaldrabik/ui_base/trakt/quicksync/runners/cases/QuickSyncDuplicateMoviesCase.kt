@@ -24,7 +24,7 @@ class QuickSyncDuplicateMoviesCase @Inject constructor(
       val remoteMovies = if (fetchedSyncItems.isNotEmpty()) {
         fetchedSyncItems.toList()
       } else {
-        remoteSource.fetchSyncWatchedMovies()
+        remoteSource.fetchSyncWatchedMovies("progress")
       }
       val duplicateMoviesIds = mutableListOf<Long>()
 

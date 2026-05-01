@@ -120,7 +120,7 @@ class TraktImportWatchedRunner @Inject constructor(
       }
 
       val syncResults = remoteAuthSource
-        .fetchSyncWatchedShows("full")
+        .fetchSyncWatchedShows("full,progress")
         .distinctBy { it.show?.ids?.trakt }
 
       Timber.d("Importing hidden/dropped shows...")
@@ -320,7 +320,7 @@ class TraktImportWatchedRunner @Inject constructor(
       }
 
       val syncItems = remoteAuthSource
-        .fetchSyncWatchedMovies("full")
+        .fetchSyncWatchedMovies("full,progress")
         .filter { it.movie != null }
         .distinctBy { it.movie?.ids?.trakt }
 

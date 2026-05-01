@@ -32,6 +32,8 @@ interface TraktSyncService {
   suspend fun fetchSyncWatched(
     @Path("type") type: String,
     @Query("extended") extended: String?,
+    @Query("page") page: Int,
+    @Query("limit") limit: Int,
   ): List<SyncItem>
 
   @GET("sync/watchlist/{type}?extended=full")

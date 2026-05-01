@@ -74,7 +74,7 @@ class TraktExportWatchedRunner @Inject constructor(
         localEpisodesNotExported.filter { isHistoryEpisodeWatched(remoteShows, it) }
       } else {
         // Use watched progress endpoint for multiple shows.
-        val remoteShows = remoteSource.fetchSyncWatchedShows()
+        val remoteShows = remoteSource.fetchSyncWatchedShows("progress")
         localEpisodesNotExported.filter { isEpisodeWatched(remoteShows, it) }
       }
 
@@ -102,7 +102,7 @@ class TraktExportWatchedRunner @Inject constructor(
       val localMoviesIds = localSource.myMovies.getAllTraktIds()
       if (localMoviesIds.isNotEmpty()) {
         val remoteMoviesIds = remoteSource
-          .fetchSyncWatchedMovies()
+          .fetchSyncWatchedMovies("progress")
           .map { it.getTraktId() }
         val localMyMovies = batchMovies(localMoviesIds)
           .filter { movie -> remoteMoviesIds.none { it == movie.idTrakt } }

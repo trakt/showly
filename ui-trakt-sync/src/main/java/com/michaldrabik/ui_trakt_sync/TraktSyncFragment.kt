@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
+import android.view.WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON
 import androidx.activity.result.contract.ActivityResultContracts.RequestPermission
 import androidx.core.content.ContextCompat
 import androidx.core.view.WindowInsetsCompat
@@ -55,12 +56,19 @@ class TraktSyncFragment :
     setupView()
     setupInsets()
 
+    activity?.window?.addFlags(FLAG_KEEP_SCREEN_ON)
+
     launchAndRepeatStarted(
       { viewModel.uiState.collect { render(it) } },
       { viewModel.eventFlow.collect { handleEvent(it) } },
       { viewModel.messageFlow.collect { showSnack(it) } },
       doAfterLaunch = { viewModel.invalidate() },
     )
+  }
+
+  override fun onDestroyView() {
+    activity?.window?.clearFlags(FLAG_KEEP_SCREEN_ON)
+    super.onDestroyView()
   }
 
   private fun setupView() {
