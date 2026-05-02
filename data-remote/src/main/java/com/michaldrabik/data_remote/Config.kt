@@ -4,7 +4,7 @@ import java.time.Duration
 
 object Config {
   const val TRAKT_VERSION = "2"
-  const val TRAKT_BASE_URL = "https://api.trakt.tv/"
+  const val TRAKT_BASE_URL = "https://apiz.trakt.tv/"
   const val TRAKT_CLIENT_ID = BuildConfig.TRAKT_CLIENT_ID
   const val TRAKT_CLIENT_SECRET = BuildConfig.TRAKT_CLIENT_SECRET
   const val TRAKT_REDIRECT_URL = "showly2://trakt"
