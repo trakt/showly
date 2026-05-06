@@ -46,6 +46,7 @@ class SettingsMapper @Inject constructor() {
       progressSortOrder = enumValueOf(settings.watchlistSortBy),
       archiveIncludeStatistics = settings.archiveShowsIncludeStatistics,
       specialSeasonsEnabled = settings.specialSeasonsEnabled,
+      progressIncludeSpecials = settings.progressIncludeSpecials,
       showAnticipatedMovies = settings.showAnticipatedMovies,
       discoverMoviesFilterGenres = settings.discoverMoviesFilterGenres
         .split(",")
@@ -96,6 +97,7 @@ class SettingsMapper @Inject constructor() {
       watchlistSortBy = settings.progressSortOrder.name,
       archiveShowsIncludeStatistics = settings.archiveIncludeStatistics,
       specialSeasonsEnabled = settings.specialSeasonsEnabled,
+      progressIncludeSpecials = settings.progressIncludeSpecials,
       showAnticipatedMovies = settings.showAnticipatedMovies,
       discoverMoviesFilterFeed = settings.discoverMoviesFilterFeed.name,
       discoverMoviesFilterGenres = settings.discoverMoviesFilterGenres.joinToString(",") { it.name },

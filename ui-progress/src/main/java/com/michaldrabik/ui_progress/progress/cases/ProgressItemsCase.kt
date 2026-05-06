@@ -64,6 +64,8 @@ class ProgressItemsCase @Inject constructor(
       val progressUpcomingDays = settingsRepository.progressUpcomingDays
       val isUpcomingEnabled = progressUpcomingDays > 0
       val upcomingLimit = nowUtc.plusDays(progressUpcomingDays).toMillis()
+      val settings = settingsRepository.load()
+      val includeSpecials = settings.specialSeasonsEnabled && settings.progressIncludeSpecials
       val filtersItem = loadFiltersItem(isUpcomingEnabled)
       val spoilers = settingsRepository.spoilers.getAll()
 
@@ -71,7 +73,7 @@ class ProgressItemsCase @Inject constructor(
         .loadAll()
         .map { show ->
           async {
-            val nextEpisode = findNextEpisode(show.traktId, nextEpisodeType, upcomingLimit)
+            val nextEpisode = findNextEpisode(show.traktId, nextEpisodeType, upcomingLimit, includeSpecials)
 
             val episodeUi = nextEpisode?.let { mappers.episode.fromDatabase(it) }
             val seasonUi = nextEpisode?.let { ep ->
@@ -101,7 +103,7 @@ class ProgressItemsCase @Inject constructor(
 
       val validItems = items
         .filter { if (isUpcomingEnabled) true else !it.isUpcoming }
-        .filter { it.episode?.firstAired != null }
+        .filter { it.episode?.firstAired != null || it.season?.isSpecial() == true }
 
       val filledItems = validItems
         .map {
@@ -127,15 +129,15 @@ class ProgressItemsCase @Inject constructor(
             val (total, watched) = when (settingsRepository.progressPercentType) {
               ProgressType.AIRED -> {
                 awaitAll(
-                  async { localSource.episodes.getTotalCount(it.show.traktId, nowUtc.toMillis()) },
-                  async { localSource.episodes.getWatchedCount(it.show.traktId, nowUtc.toMillis()) },
+                  async { localSource.episodes.getTotalCount(it.show.traktId, nowUtc.toMillis(), includeSpecials) },
+                  async { localSource.episodes.getWatchedCount(it.show.traktId, nowUtc.toMillis(), includeSpecials) },
                 )
               }
 
               ProgressType.ALL -> {
                 awaitAll(
-                  async { localSource.episodes.getTotalCount(it.show.traktId) },
-                  async { localSource.episodes.getWatchedCount(it.show.traktId) },
+                  async { localSource.episodes.getTotalCount(it.show.traktId, includeSpecials) },
+                  async { localSource.episodes.getWatchedCount(it.show.traktId, includeSpecials) },
                 )
               }
             }
@@ -172,21 +174,23 @@ class ProgressItemsCase @Inject constructor(
     showId: Long,
     nextEpisodeType: ProgressNextEpisodeType,
     upcomingLimit: Long,
+    includeSpecials: Boolean = false,
   ): Episode? =
     when (nextEpisodeType) {
       LAST_WATCHED -> {
-        when (val lastWatchedEpisode = localSource.episodes.getLastWatched(showId)) {
-          null -> localSource.episodes.getFirstUnwatched(showId, upcomingLimit)
+        when (val lastWatchedEpisode = localSource.episodes.getLastWatched(showId, includeSpecials)) {
+          null -> localSource.episodes.getFirstUnwatched(showId, upcomingLimit, includeSpecials)
           else -> localSource.episodes.getFirstUnwatchedAfterEpisode(
             showId,
             lastWatchedEpisode.seasonNumber,
             lastWatchedEpisode.episodeNumber,
             upcomingLimit,
+            includeSpecials,
           )
         }
       }
       OLDEST -> {
-        localSource.episodes.getFirstUnwatched(showId, upcomingLimit)
+        localSource.episodes.getFirstUnwatched(showId, upcomingLimit, includeSpecials)
       }
     }
 

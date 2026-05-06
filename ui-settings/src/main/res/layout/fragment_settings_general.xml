@@ -323,7 +323,7 @@
   <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/settingsIncludeSpecials"
     style="@style/Settings.ItemLayout"
-    app:layout_constraintBottom_toTopOf="@id/settingsSeparator1"
+    app:layout_constraintBottom_toTopOf="@+id/settingsProgressIncludeSpecials"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@id/settingsStreamingsEnabled"
@@ -366,13 +366,59 @@
 
   </androidx.constraintlayout.widget.ConstraintLayout>
 
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/settingsProgressIncludeSpecials"
+    style="@style/Settings.ItemLayout"
+    app:layout_constraintBottom_toTopOf="@id/settingsSeparator1"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/settingsIncludeSpecials"
+    >
+
+    <TextView
+      android:id="@+id/settingsProgressIncludeSpecialsTitle"
+      style="@style/Settings.Title"
+      android:text="@string/textSettingsProgressIncludeSpecialsTitle"
+      app:layout_constraintBottom_toTopOf="@id/settingsProgressIncludeSpecialsDescription"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      app:layout_constraintVertical_chainStyle="packed"
+      />
+
+    <TextView
+      android:id="@+id/settingsProgressIncludeSpecialsDescription"
+      style="@style/Settings.Summary"
+      android:layout_marginEnd="@dimen/spaceNormal"
+      android:text="@string/textSettingsProgressIncludeSpecialsSummary"
+      app:layout_constrainedWidth="true"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/settingsProgressIncludeSpecialsSwitch"
+      app:layout_constraintHorizontal_bias="0"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/settingsProgressIncludeSpecialsTitle"
+      />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
+      android:id="@+id/settingsProgressIncludeSpecialsSwitch"
+      android:layout_width="wrap_content"
+      android:layout_height="0dp"
+      android:background="@null"
+      android:checked="false"
+      android:clickable="false"
+      app:layout_constraintBottom_toBottomOf="@id/settingsProgressIncludeSpecials"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="@id/settingsProgressIncludeSpecials"
+      />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
   <View
     android:id="@+id/settingsSeparator1"
     style="@style/Settings.Separator"
     app:layout_constraintBottom_toTopOf="@id/settingsDateSelection"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
-    app:layout_constraintTop_toBottomOf="@id/settingsIncludeSpecials"
+    app:layout_constraintTop_toBottomOf="@id/settingsProgressIncludeSpecials"
     />
 
   <androidx.constraintlayout.widget.ConstraintLayout

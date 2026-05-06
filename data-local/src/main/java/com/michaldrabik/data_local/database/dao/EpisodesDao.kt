@@ -69,19 +69,57 @@ interface EpisodesDao : EpisodesLocalDataSource {
   @Query(
     "SELECT * from episodes where id_show_trakt = :showTraktId AND is_watched = 0 AND season_number != 0 AND first_aired <= :toTime ORDER BY season_number ASC, episode_number ASC LIMIT 1",
   )
-  override suspend fun getFirstUnwatched(
+  suspend fun getFirstUnwatchedExcludingSpecials(
     showTraktId: Long,
     toTime: Long,
   ): Episode?
 
   @Query(
+    "SELECT * from episodes where id_show_trakt = :showTraktId AND is_watched = 0 AND (first_aired <= :toTime OR season_number = 0) ORDER BY season_number ASC, episode_number ASC LIMIT 1",
+  )
+  suspend fun getFirstUnwatchedIncludingSpecials(
+    showTraktId: Long,
+    toTime: Long,
+  ): Episode?
+
+  override suspend fun getFirstUnwatched(
+    showTraktId: Long,
+    toTime: Long,
+    includeSpecials: Boolean,
+  ): Episode? = if (includeSpecials) {
+    getFirstUnwatchedIncludingSpecials(showTraktId, toTime)
+  } else {
+    getFirstUnwatchedExcludingSpecials(showTraktId, toTime)
+  }
+
+  @Query(
     "SELECT * from episodes where id_show_trakt = :showTraktId AND is_watched = 0 AND season_number != 0 AND first_aired > :fromTime AND first_aired <= :toTime ORDER BY season_number ASC, episode_number ASC LIMIT 1",
   )
-  override suspend fun getFirstUnwatched(
+  suspend fun getFirstUnwatchedExcludingSpecials(
     showTraktId: Long,
     fromTime: Long,
     toTime: Long,
   ): Episode?
+
+  @Query(
+    "SELECT * from episodes where id_show_trakt = :showTraktId AND is_watched = 0 AND ((first_aired > :fromTime AND first_aired <= :toTime) OR season_number = 0) ORDER BY season_number ASC, episode_number ASC LIMIT 1",
+  )
+  suspend fun getFirstUnwatchedIncludingSpecials(
+    showTraktId: Long,
+    fromTime: Long,
+    toTime: Long,
+  ): Episode?
+
+  override suspend fun getFirstUnwatched(
+    showTraktId: Long,
+    fromTime: Long,
+    toTime: Long,
+    includeSpecials: Boolean,
+  ): Episode? = if (includeSpecials) {
+    getFirstUnwatchedIncludingSpecials(showTraktId, fromTime, toTime)
+  } else {
+    getFirstUnwatchedExcludingSpecials(showTraktId, fromTime, toTime)
+  }
 
   @Query(
     "SELECT * from episodes where id_show_trakt = :showTraktId " +
@@ -91,7 +129,7 @@ interface EpisodesDao : EpisodesLocalDataSource {
       "AND first_aired <= :toTime " +
       "ORDER BY season_number ASC, episode_number ASC LIMIT 1",
   )
-  override suspend fun getFirstUnwatchedAfterEpisode(
+  suspend fun getFirstUnwatchedAfterEpisodeExcludingSpecials(
     showTraktId: Long,
     seasonNumber: Int,
     episodeNumber: Int,
@@ -99,33 +137,135 @@ interface EpisodesDao : EpisodesLocalDataSource {
   ): Episode?
 
   @Query(
+    "SELECT * from episodes where id_show_trakt = :showTraktId " +
+      "AND is_watched = 0 " +
+      "AND ((season_number * 10000) + episode_number) > ((:seasonNumber * 10000) + :episodeNumber) " +
+      "AND (first_aired <= :toTime OR season_number = 0) " +
+      "ORDER BY season_number ASC, episode_number ASC LIMIT 1",
+  )
+  suspend fun getFirstUnwatchedAfterEpisodeIncludingSpecials(
+    showTraktId: Long,
+    seasonNumber: Int,
+    episodeNumber: Int,
+    toTime: Long,
+  ): Episode?
+
+  override suspend fun getFirstUnwatchedAfterEpisode(
+    showTraktId: Long,
+    seasonNumber: Int,
+    episodeNumber: Int,
+    toTime: Long,
+    includeSpecials: Boolean,
+  ): Episode? = if (includeSpecials) {
+    getFirstUnwatchedAfterEpisodeIncludingSpecials(showTraktId, seasonNumber, episodeNumber, toTime)
+  } else {
+    getFirstUnwatchedAfterEpisodeExcludingSpecials(showTraktId, seasonNumber, episodeNumber, toTime)
+  }
+
+  @Query(
     "SELECT * from episodes where id_show_trakt = :showTraktId AND is_watched = 1 AND season_number != 0 ORDER BY last_watched_at DESC LIMIT 1",
   )
-  override suspend fun getLastWatched(showTraktId: Long): Episode?
+  suspend fun getLastWatchedExcludingSpecials(showTraktId: Long): Episode?
+
+  @Query(
+    "SELECT * from episodes where id_show_trakt = :showTraktId AND is_watched = 1 ORDER BY last_watched_at DESC LIMIT 1",
+  )
+  suspend fun getLastWatchedIncludingSpecials(showTraktId: Long): Episode?
+
+  override suspend fun getLastWatched(
+    showTraktId: Long,
+    includeSpecials: Boolean,
+  ): Episode? = if (includeSpecials) {
+    getLastWatchedIncludingSpecials(showTraktId)
+  } else {
+    getLastWatchedExcludingSpecials(showTraktId)
+  }
 
   @Query(
     "SELECT COUNT(id_trakt) FROM episodes WHERE id_show_trakt = :showTraktId AND first_aired < :toTime AND season_number != 0",
   )
-  override suspend fun getTotalCount(
+  suspend fun getTotalCountExcludingSpecials(
     showTraktId: Long,
     toTime: Long,
   ): Int
 
+  @Query(
+    "SELECT COUNT(id_trakt) FROM episodes WHERE id_show_trakt = :showTraktId AND (first_aired < :toTime OR season_number = 0)",
+  )
+  suspend fun getTotalCountIncludingSpecials(
+    showTraktId: Long,
+    toTime: Long,
+  ): Int
+
+  override suspend fun getTotalCount(
+    showTraktId: Long,
+    toTime: Long,
+    includeSpecials: Boolean,
+  ): Int = if (includeSpecials) {
+    getTotalCountIncludingSpecials(showTraktId, toTime)
+  } else {
+    getTotalCountExcludingSpecials(showTraktId, toTime)
+  }
+
   @Query("SELECT COUNT(id_trakt) FROM episodes WHERE id_show_trakt = :showTraktId AND season_number != 0")
-  override suspend fun getTotalCount(showTraktId: Long): Int
+  suspend fun getTotalCountExcludingSpecials(showTraktId: Long): Int
+
+  @Query("SELECT COUNT(id_trakt) FROM episodes WHERE id_show_trakt = :showTraktId")
+  suspend fun getTotalCountIncludingSpecials(showTraktId: Long): Int
+
+  override suspend fun getTotalCount(
+    showTraktId: Long,
+    includeSpecials: Boolean,
+  ): Int = if (includeSpecials) {
+    getTotalCountIncludingSpecials(showTraktId)
+  } else {
+    getTotalCountExcludingSpecials(showTraktId)
+  }
 
   @Query(
     "SELECT COUNT(id_trakt) FROM episodes WHERE id_show_trakt = :showTraktId AND is_watched = 1 AND first_aired < :toTime AND season_number != 0",
   )
-  override suspend fun getWatchedCount(
+  suspend fun getWatchedCountExcludingSpecials(
     showTraktId: Long,
     toTime: Long,
   ): Int
 
   @Query(
+    "SELECT COUNT(id_trakt) FROM episodes WHERE id_show_trakt = :showTraktId AND is_watched = 1 AND (first_aired < :toTime OR season_number = 0)",
+  )
+  suspend fun getWatchedCountIncludingSpecials(
+    showTraktId: Long,
+    toTime: Long,
+  ): Int
+
+  override suspend fun getWatchedCount(
+    showTraktId: Long,
+    toTime: Long,
+    includeSpecials: Boolean,
+  ): Int = if (includeSpecials) {
+    getWatchedCountIncludingSpecials(showTraktId, toTime)
+  } else {
+    getWatchedCountExcludingSpecials(showTraktId, toTime)
+  }
+
+  @Query(
     "SELECT COUNT(id_trakt) FROM episodes WHERE id_show_trakt = :showTraktId AND is_watched = 1 AND season_number != 0",
   )
-  override suspend fun getWatchedCount(showTraktId: Long): Int
+  suspend fun getWatchedCountExcludingSpecials(showTraktId: Long): Int
+
+  @Query(
+    "SELECT COUNT(id_trakt) FROM episodes WHERE id_show_trakt = :showTraktId AND is_watched = 1",
+  )
+  suspend fun getWatchedCountIncludingSpecials(showTraktId: Long): Int
+
+  override suspend fun getWatchedCount(
+    showTraktId: Long,
+    includeSpecials: Boolean,
+  ): Int = if (includeSpecials) {
+    getWatchedCountIncludingSpecials(showTraktId)
+  } else {
+    getWatchedCountExcludingSpecials(showTraktId)
+  }
 
   @Query("SELECT * FROM episodes WHERE is_watched = 1")
   override suspend fun getAllWatched(): List<Episode>

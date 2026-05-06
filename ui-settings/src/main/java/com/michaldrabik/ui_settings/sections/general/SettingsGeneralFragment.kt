@@ -58,6 +58,11 @@ class SettingsGeneralFragment : BaseFragment<SettingsGeneralViewModel>(R.layout.
       settingsIncludeSpecials.onClick {
         viewModel.enableSpecialSeasons(!settingsIncludeSpecialsSwitch.isChecked)
       }
+      settingsProgressIncludeSpecials.onClick {
+        if (settingsIncludeSpecialsSwitch.isChecked) {
+          viewModel.enableProgressIncludeSpecials(!settingsProgressIncludeSpecialsSwitch.isChecked)
+        }
+      }
       settingsMoviesEnabled.onClick {
         viewModel.enableMovies(!settingsMoviesEnabledSwitch.isChecked)
       }
@@ -99,6 +104,9 @@ class SettingsGeneralFragment : BaseFragment<SettingsGeneralViewModel>(R.layout.
     if (settings == null) return
     with(binding) {
       settingsIncludeSpecialsSwitch.isChecked = settings.specialSeasonsEnabled
+      settingsProgressIncludeSpecialsSwitch.isChecked = settings.progressIncludeSpecials
+      settingsProgressIncludeSpecials.isEnabled = settings.specialSeasonsEnabled
+      settingsProgressIncludeSpecials.alpha = if (settings.specialSeasonsEnabled) 1F else 0.5F
     }
   }
 

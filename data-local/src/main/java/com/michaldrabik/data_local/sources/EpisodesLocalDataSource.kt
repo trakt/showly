@@ -43,12 +43,14 @@ interface EpisodesLocalDataSource {
   suspend fun getFirstUnwatched(
     showTraktId: Long,
     toTime: Long,
+    includeSpecials: Boolean = false,
   ): Episode?
 
   suspend fun getFirstUnwatched(
     showTraktId: Long,
     fromTime: Long,
     toTime: Long,
+    includeSpecials: Boolean = false,
   ): Episode?
 
   suspend fun getFirstUnwatchedAfterEpisode(
@@ -56,23 +58,35 @@ interface EpisodesLocalDataSource {
     seasonNumber: Int,
     episodeNumber: Int,
     toTime: Long,
+    includeSpecials: Boolean = false,
   ): Episode?
 
-  suspend fun getLastWatched(showTraktId: Long): Episode?
+  suspend fun getLastWatched(
+    showTraktId: Long,
+    includeSpecials: Boolean = false,
+  ): Episode?
 
   suspend fun getTotalCount(
     showTraktId: Long,
     toTime: Long,
+    includeSpecials: Boolean = false,
   ): Int
 
-  suspend fun getTotalCount(showTraktId: Long): Int
+  suspend fun getTotalCount(
+    showTraktId: Long,
+    includeSpecials: Boolean = false,
+  ): Int
 
   suspend fun getWatchedCount(
     showTraktId: Long,
     toTime: Long,
+    includeSpecials: Boolean = false,
   ): Int
 
-  suspend fun getWatchedCount(showTraktId: Long): Int
+  suspend fun getWatchedCount(
+    showTraktId: Long,
+    includeSpecials: Boolean = false,
+  ): Int
 
   suspend fun getAllWatched(): List<Episode>
 

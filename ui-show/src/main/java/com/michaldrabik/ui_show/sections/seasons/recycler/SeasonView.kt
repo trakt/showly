@@ -60,7 +60,7 @@ class SeasonView : FrameLayout {
       seasonViewProgressText.text = String.format(ENGLISH, "%d/%d (%d%%)", progressCount, item.episodes.size, percent)
 
       seasonViewCheckbox.isChecked = item.isWatched
-      seasonViewCheckbox.isEnabled = item.episodes.all { it.episode.hasAired(item.season) } || item.isWatched
+      seasonViewCheckbox.isEnabled = item.episodes.all { it.episode.hasAired(item.season) } || item.isWatched || item.season.isSpecial()
       seasonViewCheckbox.onClick {
         val isChecked = seasonViewCheckbox.isChecked
         itemCheckedListener(item, isChecked)

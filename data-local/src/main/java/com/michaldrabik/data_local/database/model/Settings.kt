@@ -36,6 +36,7 @@ data class Settings(
   @ColumnInfo(name = "archive_shows_sort_by", defaultValue = "NAME") val archiveShowsSortBy: String,
   @ColumnInfo(name = "archive_shows_include_statistics", defaultValue = "1") val archiveShowsIncludeStatistics: Boolean,
   @ColumnInfo(name = "special_seasons_enabled", defaultValue = "0") val specialSeasonsEnabled: Boolean,
+  @ColumnInfo(name = "progress_include_specials", defaultValue = "0") val progressIncludeSpecials: Boolean,
   @ColumnInfo(name = "show_anticipated_movies", defaultValue = "0") val showAnticipatedMovies: Boolean,
   @ColumnInfo(name = "discover_movies_filter_genres", defaultValue = "") val discoverMoviesFilterGenres: String,
   @ColumnInfo(name = "discover_movies_filter_feed", defaultValue = "HOT") val discoverMoviesFilterFeed: String,

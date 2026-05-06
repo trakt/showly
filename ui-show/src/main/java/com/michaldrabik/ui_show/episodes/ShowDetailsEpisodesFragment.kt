@@ -149,7 +149,7 @@ class ShowDetailsEpisodesFragment :
           episodesOverview.text = it.season.overview
           episodesOverview.visibleIf(it.season.overview.isNotBlank())
           episodesCheckbox.run {
-            isEnabled = it.episodes.all { ep -> ep.episode.hasAired(it.season) } || !isLocked
+            isEnabled = it.episodes.all { ep -> ep.episode.hasAired(it.season) } || it.season.isSpecial() || !isLocked
             isChecked = it.isWatched
             setOnClickListener {
               viewModel.onSeasonChecked(season, isChecked)
