@@ -1,5 +1,5 @@
-![Version](https://img.shields.io/github/v/tag/michaldrabik/showly-2.0?label=version)
-![Build](https://img.shields.io/github/actions/workflow/status/michaldrabik/showly-2.0/android.yml?branch=master)
+![Version](https://img.shields.io/github/v/tag/trakt/showly?label=version)
+![Build](https://img.shields.io/github/actions/workflow/status/trakt/showly/android.yml?branch=master)
 [![RB Shield](https://shields.rbtlog.dev/simple/com.michaldrabik.showly2)](https://shields.rbtlog.dev/com.michaldrabik.showly2)
 [![Crowdin](https://badges.crowdin.net/showly-android-app/localized.svg)](https://crowdin.com/project/showly-android-app)
 [![Crowdin](https://badges.crowdin.net/showly-ios-app/localized.svg)](https://crowdin.com/project/showly-ios-app)
@@ -73,9 +73,9 @@ The OSS version for Android available in this repo is completely free of all Goo
 
 ## Issues & Contributions
 
-Feel free to post problems with the app as Github [Issues](https://github.com/michaldrabik/showly-2.0/issues).
+Feel free to post problems with the app as GitHub [Issues](https://github.com/trakt/showly/issues).
 
-Features ideas should be posted as new GIthub [Discussion](https://github.com/michaldrabik/showly-2.0/discussions).
+Features ideas should be posted as new GitHub [Discussion](https://github.com/trakt/showly/discussions).
 
 Pull requests are welcome. Remember about leaving a comment in the relevant issue if you are working on something.
 
