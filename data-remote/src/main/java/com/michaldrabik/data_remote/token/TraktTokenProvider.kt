@@ -113,7 +113,6 @@ internal class TraktTokenProvider(
     val body = JSONObject()
       .put("refresh_token", refreshToken)
       .put("client_id", Config.TRAKT_CLIENT_ID)
-      .put("client_secret", Config.TRAKT_CLIENT_SECRET)
       .put("redirect_uri", Config.TRAKT_REDIRECT_URL)
       .put("grant_type", "refresh_token")
       .toString()
