@@ -2,7 +2,6 @@ package com.michaldrabik.data_remote.trakt.api
 
 import com.michaldrabik.data_remote.Config
 import com.michaldrabik.data_remote.Config.TRAKT_CLIENT_ID
-import com.michaldrabik.data_remote.Config.TRAKT_CLIENT_SECRET
 import com.michaldrabik.data_remote.Config.TRAKT_REDIRECT_URL
 import com.michaldrabik.data_remote.tmdb.model.TmdbPerson
 import com.michaldrabik.data_remote.trakt.TraktRemoteDataSource
@@ -187,12 +186,15 @@ internal class TraktApi(
       emptyList()
     }
 
-  override suspend fun fetchAuthTokens(code: String): OAuthResponse {
+  override suspend fun fetchAuthTokens(
+    code: String,
+    codeVerifier: String?,
+  ): OAuthResponse {
     val request = OAuthRequest(
-      code,
-      TRAKT_CLIENT_ID,
-      TRAKT_CLIENT_SECRET,
-      TRAKT_REDIRECT_URL,
+      code = code,
+      client_id = TRAKT_CLIENT_ID,
+      redirect_uri = TRAKT_REDIRECT_URL,
+      code_verifier = codeVerifier,
     )
     return authService.fetchOAuthToken(request)
   }
@@ -201,7 +203,6 @@ internal class TraktApi(
     val request = OAuthRefreshRequest(
       refreshToken,
       TRAKT_CLIENT_ID,
-      TRAKT_CLIENT_SECRET,
       TRAKT_REDIRECT_URL,
     )
     return authService.refreshOAuthToken(request)
@@ -211,7 +212,6 @@ internal class TraktApi(
     val request = OAuthRevokeRequest(
       token,
       TRAKT_CLIENT_ID,
-      TRAKT_CLIENT_SECRET,
     )
     authService.revokeOAuthToken(request)
   }

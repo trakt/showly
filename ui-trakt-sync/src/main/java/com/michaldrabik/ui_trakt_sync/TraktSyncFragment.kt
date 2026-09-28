@@ -14,7 +14,7 @@ import androidx.fragment.app.viewModels
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.michaldrabik.common.extensions.dateFromMillis
 import com.michaldrabik.common.extensions.toLocalZone
-import com.michaldrabik.data_remote.Config
+import com.michaldrabik.data_remote.trakt.auth.TraktPkceProvider
 import com.michaldrabik.ui_base.BaseFragment
 import com.michaldrabik.ui_base.common.OnTraktAuthorizeListener
 import com.michaldrabik.ui_base.utilities.events.Event
@@ -34,6 +34,7 @@ import com.michaldrabik.ui_trakt_sync.TraktSyncUiEvent.StartAuthorization
 import com.michaldrabik.ui_trakt_sync.databinding.FragmentTraktSyncBinding
 import com.michaldrabik.ui_trakt_sync.views.NotificationsRationaleView
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class TraktSyncFragment :
@@ -42,6 +43,8 @@ class TraktSyncFragment :
 
   override val viewModel by viewModels<TraktSyncViewModel>()
   private val binding by viewBinding(FragmentTraktSyncBinding::bind)
+
+  @Inject lateinit var pkceProvider: TraktPkceProvider
 
   override fun onResume() {
     super.onResume()
@@ -139,7 +142,7 @@ class TraktSyncFragment :
   }
 
   private fun openTraktAuthWebsite() {
-    openWebUrl(Config.TRAKT_AUTHORIZE_URL) ?: showSnack(MessageEvent.Error(R.string.errorCouldNotFindApp))
+    openWebUrl(pkceProvider.createAuthorizeUrl()) ?: showSnack(MessageEvent.Error(R.string.errorCouldNotFindApp))
   }
 
   private fun render(uiState: TraktSyncUiState) {
