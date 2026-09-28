@@ -64,7 +64,6 @@ The OSS version for Android available in this repo is completely free of all Goo
 
    ```ini
    traktClientId="your trakt client id"
-   traktClientSecret="your trakt client secret"
    tmdbApiKey="your tmdb api key (v4)"
    omdbApiKey="your omdb api key"
    ```

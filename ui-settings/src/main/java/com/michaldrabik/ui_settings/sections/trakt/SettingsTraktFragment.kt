@@ -12,7 +12,7 @@ import androidx.fragment.app.viewModels
 import androidx.work.WorkInfo.State
 import androidx.work.WorkManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.michaldrabik.data_remote.Config.TRAKT_AUTHORIZE_URL
+import com.michaldrabik.data_remote.trakt.auth.TraktPkceProvider
 import com.michaldrabik.ui_base.BaseFragment
 import com.michaldrabik.ui_base.common.OnTraktAuthorizeListener
 import com.michaldrabik.ui_base.trakt.TraktSyncWorker
@@ -32,6 +32,7 @@ import com.michaldrabik.ui_settings.sections.trakt.SettingsTraktUiEvent.RequestN
 import com.michaldrabik.ui_settings.sections.trakt.SettingsTraktUiEvent.StartAuthorization
 import com.michaldrabik.ui_settings.sections.trakt.views.TraktNotificationsRationaleView
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class SettingsTraktFragment :
@@ -40,6 +41,8 @@ class SettingsTraktFragment :
 
   override val viewModel by viewModels<SettingsTraktViewModel>()
   private val binding by viewBinding(FragmentSettingsTraktBinding::bind)
+
+  @Inject lateinit var pkceProvider: TraktPkceProvider
 
   override fun onViewCreated(
     view: View,
@@ -186,7 +189,7 @@ class SettingsTraktFragment :
   }
 
   private fun openTraktAuthWebsite() {
-    openWebUrl(TRAKT_AUTHORIZE_URL) ?: showSnack(MessageEvent.Error(R.string.errorCouldNotFindApp))
+    openWebUrl(pkceProvider.createAuthorizeUrl()) ?: showSnack(MessageEvent.Error(R.string.errorCouldNotFindApp))
   }
 
   override fun onAuthorizationResult(authData: Uri?) {

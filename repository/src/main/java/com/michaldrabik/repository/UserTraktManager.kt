@@ -7,6 +7,7 @@ import com.michaldrabik.data_local.utilities.TransactionsProvider
 import com.michaldrabik.data_remote.token.TokenProvider
 import com.michaldrabik.data_remote.trakt.AuthorizedTraktRemoteDataSource
 import com.michaldrabik.data_remote.trakt.TraktRemoteDataSource
+import com.michaldrabik.data_remote.trakt.auth.TraktPkceProvider
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -19,6 +20,7 @@ class UserTraktManager @Inject constructor(
   private val userLocalSource: UserLocalDataSource,
   private val transactions: TransactionsProvider,
   private val tokenProvider: TokenProvider,
+  private val pkceProvider: TraktPkceProvider,
 ) {
 
   fun isAuthorized() = tokenProvider.getToken() != null
@@ -30,7 +32,7 @@ class UserTraktManager @Inject constructor(
   }
 
   suspend fun authorize(authCode: String) {
-    val tokens = remoteSource.fetchAuthTokens(authCode)
+    val tokens = remoteSource.fetchAuthTokens(authCode, pkceProvider.consumeCodeVerifier())
     tokenProvider.saveTokens(
       accessToken = tokens.access_token,
       refreshToken = tokens.refresh_token,

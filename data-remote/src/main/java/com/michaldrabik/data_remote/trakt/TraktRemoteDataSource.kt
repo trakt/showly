@@ -21,7 +21,10 @@ interface TraktRemoteDataSource {
 
   // Auth
 
-  suspend fun fetchAuthTokens(code: String): OAuthResponse
+  suspend fun fetchAuthTokens(
+    code: String,
+    codeVerifier: String?,
+  ): OAuthResponse
 
   suspend fun refreshAuthTokens(refreshToken: String): OAuthResponse
 
