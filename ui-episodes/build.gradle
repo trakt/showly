@@ -20,7 +20,6 @@ android {
 
   defaultConfig {
     minSdkVersion versions.minSdk
-    targetSdkVersion versions.targetSdk
     compileSdkVersion versions.compileSdk
 
     testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -33,6 +32,12 @@ android {
   }
 
   namespace 'com.michaldrabik.ui_episodes'
+  lint {
+    targetSdk 36
+  }
+  testOptions {
+    targetSdk 36
+  }
 }
 
 dependencies {

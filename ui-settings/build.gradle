@@ -23,7 +23,6 @@ android {
 
   defaultConfig {
     minSdkVersion versions.minSdk
-    targetSdkVersion versions.targetSdk
     compileSdkVersion versions.compileSdk
 
     buildConfigField 'int', 'VER_CODE', "${versions.versionCode}"
@@ -39,6 +38,12 @@ android {
   }
 
   namespace 'com.michaldrabik.ui_settings'
+  lint {
+    targetSdk 36
+  }
+  testOptions {
+    targetSdk 36
+  }
 }
 
 dependencies {
