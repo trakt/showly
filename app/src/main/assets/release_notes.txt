@@ -1,2 +1,2 @@
-* Updated internal data endpoints
-* Keep app awake if Trakt sync is running in the foreground
+* Updated Trakt sign in internals
+* Dependencies and libraries updates
