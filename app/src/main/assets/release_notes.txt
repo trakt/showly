@@ -1,2 +1,2 @@
-* Updated Trakt sign in internals
+* Fix issue with external ratings not loading correctly
 * Dependencies and libraries updates
