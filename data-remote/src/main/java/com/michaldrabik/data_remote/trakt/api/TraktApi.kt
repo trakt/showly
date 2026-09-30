@@ -13,6 +13,7 @@ import com.michaldrabik.data_remote.trakt.api.service.TraktSearchService
 import com.michaldrabik.data_remote.trakt.api.service.TraktShowsService
 import com.michaldrabik.data_remote.trakt.model.Comment
 import com.michaldrabik.data_remote.trakt.model.Episode
+import com.michaldrabik.data_remote.trakt.model.ExternalRatings
 import com.michaldrabik.data_remote.trakt.model.Ids
 import com.michaldrabik.data_remote.trakt.model.Movie
 import com.michaldrabik.data_remote.trakt.model.MovieCollection
@@ -164,10 +165,14 @@ internal class TraktApi(
     code: String,
   ) = showsService.fetchShowTranslations(traktId, code)
 
+  override suspend fun fetchShowRatings(traktId: Long): ExternalRatings = showsService.fetchShowRatings(traktId)
+
   override suspend fun fetchMovieTranslations(
     traktId: Long,
     code: String,
   ) = moviesService.fetchMovieTranslations(traktId, code)
+
+  override suspend fun fetchMovieRatings(traktId: Long): ExternalRatings = moviesService.fetchMovieRatings(traktId)
 
   override suspend fun fetchSeasonTranslations(
     showTraktId: Long,

@@ -26,8 +26,8 @@ class ShowsExternalRatingsRepository @Inject constructor(
       }
     }
 
-    val remoteRatings = remoteSource.omdb
-      .fetchOmdbData(show.ids.imdb.id)
+    val remoteRatings = remoteSource.trakt
+      .fetchShowRatings(show.traktId)
       .let { mappers.ratings.fromNetwork(it) }
       .copy(trakt = Ratings.Value(String.format(Locale.ENGLISH, "%.1f", show.rating), false))
 

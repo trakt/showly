@@ -2,6 +2,7 @@ package com.michaldrabik.data_remote.trakt.api.service
 
 import com.michaldrabik.data_remote.trakt.model.Comment
 import com.michaldrabik.data_remote.trakt.model.Episode
+import com.michaldrabik.data_remote.trakt.model.ExternalRatings
 import com.michaldrabik.data_remote.trakt.model.Season
 import com.michaldrabik.data_remote.trakt.model.SeasonTranslation
 import com.michaldrabik.data_remote.trakt.model.Show
@@ -73,6 +74,11 @@ interface TraktShowsService {
     @Path("traktId") traktId: Long,
     @Path("code") countryCode: String,
   ): List<Translation>
+
+  @GET("shows/{traktId}/ratings?extended=all")
+  suspend fun fetchShowRatings(
+    @Path("traktId") traktId: Long,
+  ): ExternalRatings
 
   @GET("shows/{showId}/seasons/{seasonNumber}")
   suspend fun fetchSeasonTranslations(

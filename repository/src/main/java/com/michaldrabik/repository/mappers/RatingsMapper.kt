@@ -3,19 +3,19 @@ package com.michaldrabik.repository.mappers
 import com.michaldrabik.common.extensions.nowUtcMillis
 import com.michaldrabik.data_local.database.model.MovieRatings
 import com.michaldrabik.data_local.database.model.ShowRatings
-import com.michaldrabik.data_remote.omdb.model.OmdbResult
+import com.michaldrabik.data_remote.trakt.model.ExternalRatings
 import com.michaldrabik.ui_model.IdTrakt
 import com.michaldrabik.ui_model.Ratings
 import javax.inject.Inject
 
 class RatingsMapper @Inject constructor() {
 
-  fun fromNetwork(omdbResult: OmdbResult) =
+  fun fromNetwork(data: ExternalRatings) =
     Ratings(
-      imdb = if (omdbResult.imdbRating == "N/A") null else Ratings.Value(omdbResult.imdbRating, false),
-      metascore = if (omdbResult.Metascore == "N/A") null else Ratings.Value(omdbResult.Metascore, false),
-      rottenTomatoes = Ratings.Value(omdbResult.Ratings?.find { it.Source == "Rotten Tomatoes" }?.Value, false),
-      rottenTomatoesUrl = if (omdbResult.tomatoURL == "N/A") null else omdbResult.tomatoURL,
+      imdb = data.imdb?.rating?.let { Ratings.Value(it.toString(), false) },
+      metascore = data.metascore?.rating?.let { Ratings.Value(it.toString(), false) },
+      rottenTomatoes = data.rotten_tomatoes?.rating?.let { Ratings.Value(it.toString(), false) },
+      rottenTomatoesUrl = data.rotten_tomatoes?.link,
     )
 
   fun fromDatabase(entity: MovieRatings) =

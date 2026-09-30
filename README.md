@@ -59,13 +59,12 @@ The OSS version for Android available in this repo is completely free of all Goo
    storePassword=github
    ```
 
-4. Add your [Trakt.tv](https://trakt.tv/oauth/applications), [TMDB](https://developers.themoviedb.org/3/), [OMDB](http://www.omdbapi.com) API keys as
+4. Add your [Trakt.tv](https://trakt.tv/oauth/applications), [TMDB](https://developers.themoviedb.org/3/) API keys as
    following properties into your `local.properties` file located in the root directory of the project:
 
    ```ini
    traktClientId="your trakt client id"
    tmdbApiKey="your tmdb api key (v4)"
-   omdbApiKey="your omdb api key"
    ```
 
 5. Rebuild and start the app.

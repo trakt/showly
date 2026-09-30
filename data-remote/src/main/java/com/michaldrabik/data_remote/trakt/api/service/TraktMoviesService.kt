@@ -1,6 +1,7 @@
 package com.michaldrabik.data_remote.trakt.api.service
 
 import com.michaldrabik.data_remote.trakt.model.Comment
+import com.michaldrabik.data_remote.trakt.model.ExternalRatings
 import com.michaldrabik.data_remote.trakt.model.Movie
 import com.michaldrabik.data_remote.trakt.model.MovieCollection
 import com.michaldrabik.data_remote.trakt.model.MovieCollectionItem
@@ -58,6 +59,11 @@ interface TraktMoviesService {
     @Path("traktId") traktId: Long,
     @Path("code") countryCode: String,
   ): List<Translation>
+
+  @GET("movies/{traktId}/ratings?extended=all")
+  suspend fun fetchMovieRatings(
+    @Path("traktId") traktId: Long,
+  ): ExternalRatings
 
   @GET("movies/{traktId}/lists/official/popular")
   suspend fun fetchMovieCollections(
